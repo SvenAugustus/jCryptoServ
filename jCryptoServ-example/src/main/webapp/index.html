@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Flysium Encryption</title>
+  <base id="basetag" href="/jCryptoServ/">
+  <!--[if IE]>
+  <script type='text/javascript'>
+    (function () {
+      var tag = document.getElementById('basetag');
+      tag.href = location.protocol + '//' + location.host + '/jCryptoServ/';
+    }());
+  </script>
+  <![endif]-->
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script type="text/javascript" src="static/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script type="text/javascript" src="static/libs/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  <link type="text/css" rel="stylesheet" href="static/libs/bootstrap/3.1.1/css/bootstrap.min.css">
+</head>
+<body>
+<nav class="navbar navbar-inverse" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse"
+              data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a name="index" class="navbar-brand" href="index.html">jCryptoServ</a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li>
+          <a name="home" href="index.html">Home</a>
+        </li>
+        <li>
+          <a name="JSEncrypt" href="javascript:void(0);">JSEncrypt Demo</a>
+        </li>
+        <li>
+          <a name="CryptoJS" href="javascript:void(0);">CryptoJS Demo</a>
+        </li>
+        <li>
+          <a name="jCryptoServ" href="javascript:void(0);">Crypto Service</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div id="container" class="container">
+  <h3>Hello,Flysium Encryption!</h3>
+</div>
+</body>
+<script type="text/javascript" src="static/libs/JSEncrypt/2.3.1/bin/jsencrypt.min.js"></script>
+<!-- CryptoJS start -->
+<script type="text/javascript" src="static/libs/CryptoJS/3.1.2/rollups/aes.js"></script>
+<script type="text/javascript" src="static/libs/CryptoJS/3.1.2/rollups/pbkdf2.js"></script>
+<script type="text/javascript" src="static/libs/CryptoJS/3.1.2/rollups/tripledes.js"></script>
+<script type="text/javascript" src="static/libs/CryptoJS/3.1.2/components/mode-ecb-min.js"></script>
+<script type="text/javascript" src="static/libs/CryptoJS/3.1.2/components/cipher-core-min.js"></script>
+<!-- CryptoJS end -->
+<script type="text/javascript" src="static/libs/jCryptoServ/jCryptoServ.js"></script>
+<script type="text/javascript" language="JavaScript">
+  $(function () {
+    $("a[name='JSEncrypt']").bind("click", function () {
+      $("#container").load("demo/JSEncrypt/demo.html");
+    });
+    $("a[name='CryptoJS']").bind("click", function () {
+      $("#container").load("demo/CryptoJS/demo.html");
+    });
+    $("a[name='jCryptoServ']").bind("click", function () {
+      $("#container").load("demo/jCryptoServ/demo.html");
+    });
+  });
+</script>
+</html>

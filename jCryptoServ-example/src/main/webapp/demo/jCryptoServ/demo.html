@@ -1,0 +1,56 @@
+<div class="container">
+  <script type="text/javascript">
+    // Call this code when the page is done loading.
+    $(function () {
+      $('#input').val();
+
+      // Run a quick encryption/decryption when they click.
+      $('#testme').click(function () {
+
+        var params = $('#input').val();
+
+        try {
+          params = typeof(params) !== "string" ? JSON.stringify(params) : params;
+        }
+        catch (e) {
+        }
+
+        jCryptoServ.authenticateOnway(function (AESEncryptionKey) {
+
+          var encryptedParamString = jCryptoServ.encrypt(params, AESEncryptionKey);
+
+          $.ajax({
+            url: "demo?jCryptoServ=true",
+            dataType: "json",
+            type: "POST",
+            data: {
+              decrypt: encryptedParamString
+            },
+            success: function (response) {
+              var decrypted = response.decrypted;
+              if (decrypted == params) {
+                alert('It works!!!');
+              }else {
+                  alert('Something went wrong....');
+                }
+            }
+          });
+
+        }, function () {
+          // Authentication with AES Failed ... sending form without protection
+          confirm(
+              "Authentication with Server failed, are you sure you want to submit it unencrypted?",
+              function () {
+                /// todo.....
+              });
+        }, {
+          getKeysURL: "crypto?generateKeyPair=true",
+          handshakeURL: "crypto?handshakes=true"
+        });
+      });
+    });
+  </script>
+  <label for="input">Text to encrypt:</label><br/>
+  <textarea id="input" name="input" type="text" rows=4 cols=70>username=admin&&pwd=123456</textarea><br/>
+  <input id="testme" type="button" value="Test Me!!!"/><br/>
+</div>

@@ -1,0 +1,294 @@
+<div class="row">
+  <div class="panel panel-default">
+    <div class="panel-heading"><h1>Online CryptoJS Key Generator</h1></div>
+    <div class="panel-body">
+      <div class="row col-lg-12">
+        <div class="well">
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <!-- frontpage banner -->
+          <ins class="adsbygoogle"
+               style="display:inline-block;width:728px;height:90px"
+               data-ad-client="ca-pub-1902035200208763"
+               data-ad-slot="9043467163"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+      </div>
+      <div class="col-lg-2">
+        <div class="btn-group">
+          <div class="input-group">
+            <span class="input-group-addon">Key Type</span>
+            <button class="btn btn-default dropdown-toggle" id="key-type" type="button"
+                    data-value="AES"
+                    data-toggle="dropdown">AES <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+              <li><a class="change-key-type" data-value="AES" href="javascript:void(0);">AES</a>
+              </li>
+              <li><a class="change-key-type" data-value="DES" href="javascript:void(0);">DES</a>
+              </li>
+              <li><a class="change-key-type" data-value="3DES" href="javascript:void(0);">3DES</a>
+              </li>
+            </ul>
+          </div>
+          <br/>&nbsp;<br/>
+          <div class="input-group">
+            <span class="input-group-addon">Key Size</span>
+            <button class="btn btn-default dropdown-toggle" id="key-size" type="button"
+                    data-value="128"
+                    data-toggle="dropdown">128 bit <span class="caret"></span></button>
+            <ul class="dropdown-menu" id="change-key-size">
+              <li><a class="change-key-size" data-value="128" href="javascript:void(0);">128 bit</a>
+              </li>
+              <li><a class="change-key-size" data-value="192" href="javascript:void(0);">192 bit</a>
+              </li>
+              <li><a class="change-key-size" data-value="256" href="javascript:void(0);">256 bit</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <br/>&nbsp;<br/>
+        <button id="generate" class="btn btn-primary">Generate New Key</button>
+        <br/>&nbsp;<br/>
+        <label for="async-ck"><input id="async-ck" type="checkbox">Async</label>
+      </div>
+      <div class="col-lg-10">
+        <div class="row">
+          <div class="col-lg-10">
+            <label for="secret" id="key-desc">AES Key</label><br/>
+            <small>
+              <textarea id="secret" rows="3" style="width:100%"></textarea>
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="panel panel-default">
+    <div class="panel-heading"><h3 id="encryption-text">AES Encryption Test</h3></div>
+    <div class="panel-body">
+      <div class="col-lg-5">
+        <label for="input">Text to encrypt:</label><br/>
+        <textarea id="input" name="input" style="width: 100%" rows="4">This is a test!</textarea>
+      </div>
+      <div class="col-lg-2">
+        <label>&nbsp;</label><br/>
+        <button id="execute" class="btn btn-primary">Encrypt / Decrypt</button>
+        <br/>&nbsp;<br/>
+        <button id="executeJava" class="btn btn-primary">Java Encrypt / Decrypt</button>
+      </div>
+      <div class="col-lg-5">
+        <label for="crypted">Encrypted:</label><br/>
+        <textarea id="crypted" name="crypted" style="width: 100%" rows="4"></textarea>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(function () {
+
+    var encryptByComp = function (CryptoJSComp, message, key) {
+      var keyHex = CryptoJS.enc.Utf8.parse(key);
+      // CryptoJS use CBC as the default mode, and Pkcs7 as the default padding scheme
+      var encrypted = CryptoJSComp.encrypt(message, keyHex, {
+        mode: CryptoJS.mode.ECB,
+        padding: CryptoJS.pad.Pkcs7
+      });
+      return encrypted.toString();
+    };
+
+    var decryptByComp = function (CryptoJSComp, ciphertext, key) {
+      var keyHex = CryptoJS.enc.Utf8.parse(key);
+      // direct decrypt ciphertext
+      var decrypted = CryptoJSComp.decrypt({
+        ciphertext: CryptoJS.enc.Base64.parse(ciphertext)
+      }, keyHex, {
+        mode: CryptoJS.mode.ECB,
+        padding: CryptoJS.pad.Pkcs7
+      });
+      return decrypted.toString(CryptoJS.enc.Utf8);
+    };
+
+    //Change the key type value for new keys
+    $(".change-key-type").each(function (index, value) {
+      var el = $(value);
+      var keyType = el.attr('data-value');
+      el.click(function (e) {
+        var button = $('#key-type');
+        button.attr('data-value', keyType);
+        button.html(keyType + '<span class="caret"></span>');
+        $('#key-desc').html(keyType + ' key');
+        $('#encryption-text').html(keyType + ' Encryption Test');
+        var keySize = 0;
+        var html = [];
+        if ('AES' == keyType) {
+          keySize = 128;
+          html.push(
+              '<li><a class="change-key-size" data-value="128" href="javascript:void(0);">128 bit</a></li>');
+          html.push(
+              '<li><a class="change-key-size" data-value="192" href="javascript:void(0);">192 bit</a></li>');
+          html.push(
+              '<li><a class="change-key-size" data-value="256" href="javascript:void(0);">256 bit</a></li>');
+        }
+        if ('DES' == keyType) {
+          keySize = 56;
+          html.push(
+              '<li><a class="change-key-size" data-value="56" href="javascript:void(0);">56 Bits</a></li>');
+        }
+        if ('3DES' == keyType) {
+          keySize = 168;
+          html.push(
+              '<li><a class="change-key-size" data-value="112" href="javascript:void(0);">112 bit</a></li>');
+          html.push(
+              '<li><a class="change-key-size" data-value="168" href="javascript:void(0);">168 bit</a></li>');
+        }
+        $('#change-key-size').html(html);
+        //Change the key size value for new keys
+        $(".change-key-size").each(function (index, value) {
+          var el = $(value);
+          var keySize = el.attr('data-value');
+          el.click(function (e) {
+            var button = $('#key-size');
+            button.attr('data-value', keySize);
+            if (keySize == 0) {
+              button.html(' ---- <span class="caret"></span>');
+            } else {
+              button.html(keySize + ' bit <span class="caret"></span>');
+            }
+            $("#generate").trigger("click");
+            e.preventDefault();
+          });
+        });
+        //$('#key-size').attr('data-value', keySize);
+        //$('#key-size').html(keySize + ' bit <span class="caret"></span>');
+        $(".change-key-size:first").trigger("click");
+        $("#generate").trigger("click");
+        e.preventDefault();
+      });
+    });
+
+    // Execute when they click the button.
+    $('#execute').click(function () {
+      var keyType = $('#key-type').attr('data-value');
+      var CryptoJSComp;
+      if ('AES' == keyType) {
+        CryptoJSComp = CryptoJS.AES;
+      }
+      if ('DES' == keyType) {
+        CryptoJSComp = CryptoJS.DES;
+      }
+      if ('3DES' == keyType) {
+        CryptoJSComp = CryptoJS.TripleDES;
+      }
+      if (!CryptoJSComp) {
+        alert('Do not support ' + keyType + '!');
+        return;
+      }
+
+      var secret = $('#secret').val().trim();
+      if (!secret) {
+        $("#generate").trigger("click");
+        secret = $('#secret').val().trim();
+      }
+
+      // Get the input and crypted values.
+      var input = $('#input').val().trim();
+      var crypted = $('#crypted').val().trim();
+
+      // Alternate the values.
+      if (input) {
+        var ciphertext = encryptByComp(CryptoJSComp, input, secret);
+        console.info('ciphertext:', ciphertext);
+        $('#crypted').val(ciphertext);
+        $('#input').val('');
+      } else if (crypted) {
+        var plaintext = decryptByComp(CryptoJSComp, crypted, secret);
+        console.info('plaintext :', plaintext);
+        if (!plaintext) {
+          plaintext = 'This is a test!';
+        }
+        $('#input').val(plaintext);
+        $('#crypted').val('');
+      }
+    });
+
+    // Execute when they click the button.
+    $('#executeJava').click(function () {
+      var keyType = $('#key-type').attr('data-value');
+      var secret = $('#secret').val().trim();
+      if (!secret) {
+        $("#generate").trigger("click");
+        secret = $('#secret').val().trim();
+      }
+      // Get the input and crypted values.
+      var input = $('#input').val().trim();
+      var crypted = $('#crypted').val().trim();
+
+      // Alternate the values.
+      if (input) {
+        $.ajax({
+          url: "demo?1=1",
+          dataType: "json",
+          type: "POST",
+          data: {
+            type: keyType,
+            key: secret,
+            encrypt: input
+          },
+          success: function (response) {
+            var encrypted = response.encrypted;
+            $('#crypted').val(encrypted);
+            $('#input').val('');
+          }
+        });
+      } else if (crypted) {
+        $.ajax({
+          url: "demo?1=1",
+          dataType: "json",
+          type: "POST",
+          data: {
+            type: keyType,
+            key: secret,
+            decrypt: crypted
+          },
+          success: function (response) {
+            var decrypted = response.decrypted;
+            if (!decrypted) {
+              decrypted = 'This is a test!';
+            }
+            $('#input').val(decrypted);
+            $('#crypted').val('');
+          }
+        });
+      }
+    });
+
+    // If they wish to generate new keys.
+    $('#generate').click(function () {
+      var keyType = $('#key-type').attr('data-value');
+      var sKeySize = $('#key-size').attr('data-value');
+      var keySizeBits = parseInt(sKeySize);
+      var keySize = 0;
+      if ('AES' == keyType) {
+        keySize = keySizeBits / 8;
+      } else if ('DES' == keyType) {
+        keySize = 8;
+      } else if ('3DES' == keyType) {
+        keySize = (112 == keySizeBits) ? 15 : 23;
+      } else {
+        keySize = keySizeBits / 8;
+      }
+      console.info("keySize:" + keySize);
+      var nBits = keySize / 2;
+      console.info("nBits:" + nBits);
+      // 16 进制的 随机字符串
+      var secret = CryptoJS.lib.WordArray.random(nBits).toString(CryptoJS.enc.Hex);
+      $('#secret').val(secret);
+    });
+    $(".change-key-type:first").trigger("click");
+    //$("#generate").trigger("click");
+  })
+  ;
+</script>
