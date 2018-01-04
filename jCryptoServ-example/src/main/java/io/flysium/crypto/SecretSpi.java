@@ -21,14 +21,14 @@ public abstract class SecretSpi implements ISecretSpi {
   protected final String algorithm;
   /* 封装CipherSpi实现的提供者 */
   protected final Provider provider;
-  /* 密钥长度, bits */
-  protected int keyLength;
   /* 加密参数的（透明）规范 */
   protected AlgorithmParameterSpec algorithmParameterSpec;
   /* 支持 byte[] 加密 */
   protected final boolean _byte_encrypt_support;
   /* 支持 char[] 加密 */
   protected final boolean _char_encrypt_support;
+  /* 空提供者 */
+  protected static final Provider _nullProvider=null;
 
   public SecretSpi(String algorithm, Provider provider) {
     this(algorithm, provider, true, false);
@@ -52,17 +52,6 @@ public abstract class SecretSpi implements ISecretSpi {
   public Provider getProvider() {
     return provider;
   }
-
-  @Override
-  public int getKeyLength() {
-    return keyLength;
-  }
-
-  @Override
-  public void setKeyLength(int keyLength) {
-    this.keyLength = keyLength;
-  }
-
 
   @Override
   public AlgorithmParameterSpec getAlgorithmParameterSpec() {

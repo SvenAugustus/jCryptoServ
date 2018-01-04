@@ -17,9 +17,7 @@ public class AESUnitTest extends CryptoSpiUnitTest {
   public void test() {
     ICryptoSpi aes = new AES();
     //aes = new AES("AES/ECB/PKCS5Padding");
-    aes.setKeyLength(128);
-    aes.generateKey();
-    System.out.println("-------密钥长度-------" + aes.getKeyLength());
+    aes.generateKey(128);
 
     String plainText = "JavaScript中文";
     testEncryptAndDecrypt(aes, plainText);

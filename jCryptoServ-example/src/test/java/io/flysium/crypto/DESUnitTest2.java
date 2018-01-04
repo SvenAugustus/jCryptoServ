@@ -34,7 +34,7 @@ public class DESUnitTest2 extends CryptoSpiUnitTest {
     //des = new DES();
     des = new DES(transforms);
     des.setSecret(KEY.getBytes());
-    System.out.println("-------密钥长度-------" + des.getKeyLength());
+    System.out.println("-------密钥长度-------" + (des.getSecret().length*8));
   }
 
 }

@@ -31,10 +31,10 @@ public class DESedeUnitTest2 extends CryptoSpiUnitTest {
 
   @Before
   public void before() {
-    //des = new DESede();
+    // des = new DESede();
     desede = new DESede(transforms);
     desede.setSecret(KEY.getBytes());
-    System.out.println("-------密钥长度-------" + desede.getKeyLength());
+    System.out.println("-------密钥长度-------" + (desede.getSecret().length * 8));
   }
 
 }

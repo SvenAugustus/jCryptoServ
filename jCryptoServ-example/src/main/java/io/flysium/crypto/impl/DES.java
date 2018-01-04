@@ -10,7 +10,6 @@ import java.security.spec.InvalidKeySpecException;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 
-
 /**
  * DES
  *
@@ -25,42 +24,38 @@ public class DES extends Symmetric implements ICryptoSpi, ISecretSpi {
   /* 默认转换名 */
   private static final String DEFAULT_TRANSFORMS = "DES";
   /* 默认密钥长度，56 bits */
-  private static final int DEFAULT_KEY_SIZE = 56;
+  public static final int DEFAULT_KEY_SIZE = 56;
 
   public DES() {
-    this(null, DEFAULT_TRANSFORMS, DEFAULT_KEY_SIZE);
-  }
-
-  public DES(int keyLength) {
-    this(null, DEFAULT_TRANSFORMS, keyLength);
+    this(null, DEFAULT_TRANSFORMS);
   }
 
   public DES(Provider provider) {
-    this(provider, DEFAULT_TRANSFORMS, DEFAULT_KEY_SIZE);
-  }
-
-  public DES(Provider provider, int keyLength) {
-    this(provider, DEFAULT_TRANSFORMS, keyLength);
+    this(provider, DEFAULT_TRANSFORMS);
   }
 
   public DES(String transforms) {
-    this(null, transforms, DEFAULT_KEY_SIZE);
+    this(null, transforms);
   }
 
   public DES(Provider provider, String transforms) {
-    this(provider, transforms, DEFAULT_KEY_SIZE);
+    super(DEFAULT_ALGORITHM, provider, transforms);
   }
 
-  public DES(Provider provider, String transforms, int keyLength) {
-    super(DEFAULT_ALGORITHM, provider, transforms, keyLength);
+  /**
+   * 生成随机密钥
+   */
+  @Override
+  public void generateKey() {
+    generateKey(DEFAULT_KEY_SIZE);
   }
 
   @Override
-  public void setKeyLength(int keyLength) {
+  public void generateKey(int keyLength) {
     if (keyLength != 56) {
       throw new IllegalStateException("Invalid key size (" + keyLength + " bits)");
     }
-    super.setKeyLength(keyLength);
+    super.generateKey(keyLength);
   }
 
   /**
@@ -71,7 +66,6 @@ public class DES extends Symmetric implements ICryptoSpi, ISecretSpi {
   @Override
   public void setSecret(byte[] secretKey) {
     if (secretKey == null) {
-      this.keyLength = 0;
       return;
     }
     try {
@@ -91,8 +85,6 @@ public class DES extends Symmetric implements ICryptoSpi, ISecretSpi {
       fail(e);
     }
     // DES 密钥长度 56 Bits，另有8位 是奇偶校验位
-    // this.setKeyLength(56);
-    // 密钥长度暂无法确定
   }
 
 }

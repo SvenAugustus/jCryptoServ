@@ -35,36 +35,25 @@ public class RSA extends Asymmetric implements IAsyCryptoSpi, ISecretSpi {
   /* 默认转换名 */
   private static final String DEFAULT_TRANSFORMS = "RSA";
   /* 默认密钥长度，1024 bits */
-  private static final int DEFAULT_KEY_SIZE = 1024;
+  public static final int DEFAULT_KEY_SIZE = 1024;
   /* 默认签名算法名 */
   private static final String DEFAULT_SIGNATURE_ALGORITHM = "SHA256withRSA";
 
-  public RSA() {
-    this(null, DEFAULT_TRANSFORMS, DEFAULT_KEY_SIZE);
-  }
 
-  public RSA(int keyLength) {
-    this(null, DEFAULT_TRANSFORMS, keyLength);
+  public RSA() {
+    this(_nullProvider, DEFAULT_TRANSFORMS);
   }
 
   public RSA(Provider provider) {
-    this(provider, DEFAULT_TRANSFORMS, DEFAULT_KEY_SIZE);
-  }
-
-  public RSA(Provider provider, int keyLength) {
-    this(provider, DEFAULT_TRANSFORMS, keyLength);
+    this(provider, DEFAULT_TRANSFORMS);
   }
 
   public RSA(String transforms) {
-    this(null, transforms, DEFAULT_KEY_SIZE);
+    this(_nullProvider, transforms);
   }
 
   public RSA(Provider provider, String transforms) {
-    this(provider, transforms, DEFAULT_KEY_SIZE);
-  }
-
-  public RSA(Provider provider, String transforms, int keyLength) {
-    super(DEFAULT_ALGORITHM, provider, transforms, keyLength);
+    super(DEFAULT_ALGORITHM, provider, transforms);
     super.setSignatureAlgorithm(DEFAULT_SIGNATURE_ALGORITHM);
   }
 
@@ -80,7 +69,6 @@ public class RSA extends Asymmetric implements IAsyCryptoSpi, ISecretSpi {
   @Override
   public void setKeyPair(KeyPair keyPair) {
     super.setKeyPair(keyPair);
-    this.keyLength = ((RSAPublicKey) publicKey).getModulus().bitLength();
   }
 
   /**
@@ -102,7 +90,6 @@ public class RSA extends Asymmetric implements IAsyCryptoSpi, ISecretSpi {
     } catch (InvalidKeySpecException e) {
       fail(e);
     }
-    this.keyLength = ((RSAPublicKey) publicKey).getModulus().bitLength();
   }
 
   /**
@@ -126,6 +113,13 @@ public class RSA extends Asymmetric implements IAsyCryptoSpi, ISecretSpi {
     }
   }
 
+  /**
+   * 生成随机密钥
+   */
+  @Override
+  public void generateKey() {
+    generateKey(DEFAULT_KEY_SIZE);
+  }
 
   /**
    * 整体加解密运算，完成加密或解密数据
@@ -141,8 +135,9 @@ public class RSA extends Asymmetric implements IAsyCryptoSpi, ISecretSpi {
     try {
       // java.lang.ArrayIndexOutOfBoundsException: too much data for RSA block
       // Padding模式下，其中PKCS#1建议的Padding就占用了11个字节
+      final int keyLength = ((RSAPublicKey) publicKey).getModulus().bitLength();
       final int maxBlockLength = (cipher.getBlockSize() > 0) ? cipher.getBlockSize()
-          : (Cipher.DECRYPT_MODE == mode) ? (this.keyLength / 8) : (this.keyLength / 8 - 11);
+          : (Cipher.DECRYPT_MODE == mode) ? (keyLength / 8) : (keyLength / 8 - 11);
       int length = input.length;
       if (length <= maxBlockLength) {
         return cipher.doFinal(input);

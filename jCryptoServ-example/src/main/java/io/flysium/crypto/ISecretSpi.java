@@ -26,16 +26,6 @@ public interface ISecretSpi {
   Provider getProvider();
 
   /**
-   * 获取初始密钥长度
-   */
-  int getKeyLength();
-
-  /**
-   * 设置初始密钥长度
-   */
-  void setKeyLength(int keyLength);
-
-  /**
    * 获取加密参数规范
    */
   AlgorithmParameterSpec getAlgorithmParameterSpec();

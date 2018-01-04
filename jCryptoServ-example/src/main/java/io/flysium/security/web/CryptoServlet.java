@@ -119,7 +119,7 @@ public class CryptoServlet extends HttpServlet {
      */
     // 以下两种皆适用
     // IAsyCryptoSpi spi = new RSA();
-    IAsyCryptoSpi spi = new RSA(PROVIDER, "RSA/NONE/PKCS1Padding", 1024);
+    IAsyCryptoSpi spi = new RSA(PROVIDER, "RSA/NONE/PKCS1Padding");
     return spi;
   }
 

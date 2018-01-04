@@ -24,9 +24,8 @@ public abstract class Symmetric extends CryptoSpi {
   protected SecretKey secretKey = null;
 
 
-  public Symmetric(String algorithm, Provider provider, String transforms, int keyLength) {
+  public Symmetric(String algorithm, Provider provider, String transforms) {
     super(algorithm, provider, transforms);
-    this.setKeyLength(keyLength);
   }
 
   /**
@@ -56,8 +55,8 @@ public abstract class Symmetric extends CryptoSpi {
    * 生成随机密钥
    */
   @Override
-  public void generateKey() {
-    this.secretKey = Util.generateKey(this.keyLength, algorithm, provider);
+  public void generateKey(int keyLength) {
+    this.secretKey = Util.generateKey(keyLength, algorithm, provider);
   }
 
   /**

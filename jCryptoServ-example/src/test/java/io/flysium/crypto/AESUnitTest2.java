@@ -34,7 +34,7 @@ public class AESUnitTest2 extends CryptoSpiUnitTest {
     // aes = new AES();
     aes = new AES(transforms);
     aes.setSecret(KEY.getBytes());
-    System.out.println("-------密钥长度-------" + aes.getKeyLength());
+    System.out.println("-------密钥长度-------" + (aes.getSecret().length * 8));
   }
 
 }

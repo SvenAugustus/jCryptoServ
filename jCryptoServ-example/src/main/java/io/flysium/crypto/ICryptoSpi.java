@@ -35,9 +35,16 @@ public interface ICryptoSpi extends ISecretSpi {
   void setSecret(byte[] secretKey);
 
   /**
-   * 根据初始密钥长度，随机生成密钥
+   * 根据默认密钥长度，随机生成密钥
    */
   void generateKey();
+
+  /**
+   * 根据初始密钥长度，随机生成密钥
+   *
+   * @param keyLength 密钥长度，单位Bits
+   */
+  void generateKey(int keyLength);
 
   /**
    * 解密

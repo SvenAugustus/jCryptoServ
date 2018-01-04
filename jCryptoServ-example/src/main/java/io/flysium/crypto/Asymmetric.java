@@ -42,9 +42,8 @@ public abstract class Asymmetric extends AsyCryptoSpi implements IAsyCryptoSpi {
     }
   };
 
-  public Asymmetric(String algorithm, Provider provider, String transforms, int keyLength) {
+  public Asymmetric(String algorithm, Provider provider, String transforms) {
     super(algorithm, provider, transforms);
-    this.setKeyLength(keyLength);
   }
 
   public Asymmetric(String algorithm, Provider provider, String transforms, String publicKeyB64,
@@ -60,14 +59,6 @@ public abstract class Asymmetric extends AsyCryptoSpi implements IAsyCryptoSpi {
 
   public String getTransforms() {
     return transforms;
-  }
-
-  public int getKeyLength() {
-    return keyLength;
-  }
-
-  public void setKeyLength(int keyLength) {
-    this.keyLength = keyLength;
   }
 
   @Override
@@ -123,7 +114,7 @@ public abstract class Asymmetric extends AsyCryptoSpi implements IAsyCryptoSpi {
    * 生成随机密钥对
    */
   @Override
-  public void generateKey() {
+  public void generateKey(int keyLength) {
     KeyPair keyPair = Util.generateKeyPair(keyLength, algorithm, provider);
     this.publicKey = keyPair.getPublic();
     this.privateKey = keyPair.getPrivate();

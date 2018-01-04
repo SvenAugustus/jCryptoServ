@@ -17,10 +17,8 @@ public class DESedeUnitTest extends CryptoSpiUnitTest {
   public void test() {
     ICryptoSpi desede = new DESede();
     //desede = new DESede("DESede/ECB/PKCS5Padding");
-    desede.setKeyLength(112);
-    desede.generateKey();
-    System.out.println("-------密钥长度-------" + desede.getKeyLength());
-    System.out.println("-------Secret长度-------" + desede.getSecret().length);
+    desede.generateKey(112);
+    System.out.println("-------密钥长度-------" + (desede.getSecret().length*8));
 
     String plainText = "JavaScript中文";
     testEncryptAndDecrypt(desede, plainText);

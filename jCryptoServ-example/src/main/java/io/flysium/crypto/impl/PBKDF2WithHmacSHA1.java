@@ -25,6 +25,8 @@ public class PBKDF2WithHmacSHA1 extends PBESpec implements ISecretSpi {
   /* 默认算法名 */
   private static final String DEFAULT_ALGORITHM = "PBKDF2WithHmacSHA1";
 
+  private int keyLength = 128;
+
   public PBKDF2WithHmacSHA1() {
     super(DEFAULT_ALGORITHM, null);
   }

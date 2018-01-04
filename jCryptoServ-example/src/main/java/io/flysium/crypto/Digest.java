@@ -30,16 +30,6 @@ public class Digest extends SecretSpi {
     super(algorithm, provider);
   }
 
-  @Override
-  public int getKeyLength() {
-    throw new UnsupportedOperationException("not support to get KeyLength in Digest.");
-  }
-
-  @Override
-  public void setKeyLength(int keyLength) {
-    throw new UnsupportedOperationException("not support to set KeyLength in Digest.");
-  }
-
   /**
    * 加密
    *

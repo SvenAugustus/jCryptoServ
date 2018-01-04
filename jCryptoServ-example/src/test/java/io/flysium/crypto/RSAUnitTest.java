@@ -16,7 +16,7 @@ public class RSAUnitTest extends AsyCryptoSpiUnitTest {
   @Test
   public void testEncryptAndDecrypt1() {
     IAsyCryptoSpi rsa = new RSA();
-    rsa.generateKey();
+    rsa.generateKey(1024);
 
     String plainText = "4ba042f9792ea957b1f3fea42fe74276d05ac011e863c4072191d24231a879ca";
     testEncryptAndDecrypt(rsa, plainText);
@@ -25,7 +25,7 @@ public class RSAUnitTest extends AsyCryptoSpiUnitTest {
   @Test
   public void testEncryptAndDecrypt2() {
     IAsyCryptoSpi rsa = new RSA();
-    rsa.generateKey();
+    rsa.generateKey(1024);
 
     String plainText = "Javascript中文";
     testEncryptAndDecrypt(rsa, plainText);

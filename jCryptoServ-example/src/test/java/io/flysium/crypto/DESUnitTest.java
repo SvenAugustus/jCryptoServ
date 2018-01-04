@@ -17,10 +17,8 @@ public class DESUnitTest extends CryptoSpiUnitTest {
   public void test() {
     ICryptoSpi des = new DES();
     des = new DES("DES/ECB/PKCS5Padding");
-    des.setKeyLength(56);
-    des.generateKey();
-    System.out.println("-------密钥长度-------" + des.getKeyLength());
-    System.out.println("-------Secret长度-------" + des.getSecret().length);
+    des.generateKey(56);
+    System.out.println("-------密钥长度-------" + (des.getSecret().length*8));
 
     String plainText = "Message";
     testEncryptAndDecrypt(des, plainText);

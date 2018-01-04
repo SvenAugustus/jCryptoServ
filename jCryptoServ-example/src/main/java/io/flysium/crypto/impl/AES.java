@@ -26,34 +26,22 @@ public class AES extends Symmetric implements ICryptoSpi, ISecretSpi {
   /* 默认转换名 */
   private static final String DEFAULT_TRANSFORMS = "AES";
   /* 默认密钥长度，256 bits */
-  private static final int DEFAULT_KEY_SIZE = 256;
+  public static final int DEFAULT_KEY_SIZE = 256;
 
   public AES() {
-    this(null, DEFAULT_TRANSFORMS, DEFAULT_KEY_SIZE);
-  }
-
-  public AES(int keyLength) {
-    this(null, DEFAULT_TRANSFORMS, keyLength);
+    this(null, DEFAULT_TRANSFORMS);
   }
 
   public AES(Provider provider) {
-    this(provider, DEFAULT_TRANSFORMS, DEFAULT_KEY_SIZE);
-  }
-
-  public AES(Provider provider, int keyLength) {
-    this(provider, DEFAULT_TRANSFORMS, keyLength);
+    this(provider, DEFAULT_TRANSFORMS);
   }
 
   public AES(String transforms) {
-    this(null, transforms, DEFAULT_KEY_SIZE);
+    this(null, transforms);
   }
 
   public AES(Provider provider, String transforms) {
-    this(provider, transforms, DEFAULT_KEY_SIZE);
-  }
-
-  public AES(Provider provider, String transforms, int keyLength) {
-    super(DEFAULT_ALGORITHM, provider, transforms, keyLength);
+    super(DEFAULT_ALGORITHM, provider, transforms);
   }
 
   /**
@@ -64,7 +52,6 @@ public class AES extends Symmetric implements ICryptoSpi, ISecretSpi {
   @Override
   public void setSecret(byte[] secretKey) {
     if (secretKey == null) {
-      this.keyLength = 0;
       return;
     }
     // 模式一：需先设置keyLength
@@ -73,15 +60,22 @@ public class AES extends Symmetric implements ICryptoSpi, ISecretSpi {
     //    this.secretKey = keyGenerator.generateKey();
     // 模式二：使用SecretKeySpec构建
     this.secretKey = new SecretKeySpec(secretKey, algorithm);
-    this.setKeyLength(this.secretKey.getEncoded().length * 8);
+  }
+
+  /**
+   * 生成随机密钥
+   */
+  @Override
+  public void generateKey() {
+    generateKey(DEFAULT_KEY_SIZE);
   }
 
   @Override
-  public void setKeyLength(int keyLength) {
+  public void generateKey(int keyLength) {
     if (keyLength != 128 && keyLength != 192 && keyLength != 256) {
       throw new IllegalStateException("Invalid key size (" + keyLength + " bits)");
     }
-    super.setKeyLength(keyLength);
+    super.generateKey(keyLength);
   }
 
 }

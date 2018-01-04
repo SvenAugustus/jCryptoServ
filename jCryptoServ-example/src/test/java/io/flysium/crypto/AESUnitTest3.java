@@ -36,7 +36,7 @@ public class AESUnitTest3 extends CryptoSpiUnitTest {
     aes = new AES(transforms);
     //aes = new AES(new BouncyCastleProvider(), transforms);
     aesConfig(aes, KEY);
-    System.out.println("-------密钥长度-------" + aes.getKeyLength());
+    System.out.println("-------密钥长度-------" + (aes.getSecret().length * 8));
   }
 
   private static ISecretSpi pbkdf2() {

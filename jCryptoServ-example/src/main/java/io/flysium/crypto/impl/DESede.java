@@ -6,7 +6,6 @@ import io.flysium.crypto.Symmetric;
 import java.security.Provider;
 import javax.crypto.spec.SecretKeySpec;
 
-
 /**
  * DESede(即3DES)
  *
@@ -21,42 +20,38 @@ public class DESede extends Symmetric implements ICryptoSpi, ISecretSpi {
   /* 默认转换名 */
   private static final String DEFAULT_TRANSFORMS = "DESede";
   /* 默认密钥长度，168 bits */
-  private static final int DEFAULT_KEY_SIZE = 168;
+  public static final int DEFAULT_KEY_SIZE = 168;
 
   public DESede() {
-    this(null, DEFAULT_TRANSFORMS, DEFAULT_KEY_SIZE);
-  }
-
-  public DESede(int keyLength) {
-    this(null, DEFAULT_TRANSFORMS, keyLength);
+    this(null, DEFAULT_TRANSFORMS);
   }
 
   public DESede(Provider provider) {
-    this(provider, DEFAULT_TRANSFORMS, DEFAULT_KEY_SIZE);
-  }
-
-  public DESede(Provider provider, int keyLength) {
-    this(provider, DEFAULT_TRANSFORMS, keyLength);
+    this(provider, DEFAULT_TRANSFORMS);
   }
 
   public DESede(String transforms) {
-    this(null, transforms, DEFAULT_KEY_SIZE);
+    this(null, transforms);
   }
 
   public DESede(Provider provider, String transforms) {
-    this(provider, transforms, DEFAULT_KEY_SIZE);
+    super(DEFAULT_ALGORITHM, provider, transforms);
   }
 
-  public DESede(Provider provider, String transforms, int keyLength) {
-    super(DEFAULT_ALGORITHM, provider, transforms, keyLength);
+  /**
+   * 生成随机密钥
+   */
+  @Override
+  public void generateKey() {
+    generateKey(DEFAULT_KEY_SIZE);
   }
 
   @Override
-  public void setKeyLength(int keyLength) {
+  public void generateKey(int keyLength) {
     if (keyLength < 112 || keyLength > 168) {
       throw new IllegalStateException("Invalid key size (" + keyLength + " bits)");
     }
-    super.setKeyLength(keyLength);
+    super.generateKey(keyLength);
   }
 
   /**
@@ -67,7 +62,6 @@ public class DESede extends Symmetric implements ICryptoSpi, ISecretSpi {
   @Override
   public void setSecret(byte[] secretKey) {
     if (secretKey == null) {
-      this.keyLength = 0;
       return;
     }
     // 3DES 密钥填充必须为 24 B
@@ -78,8 +72,6 @@ public class DESede extends Symmetric implements ICryptoSpi, ISecretSpi {
       System.arraycopy(secretKey, 0, key, 0, key.length);
     }
     this.secretKey = new SecretKeySpec(key, algorithm);
-    // 密钥长度暂无法确定
   }
-
 
 }
