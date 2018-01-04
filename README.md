@@ -43,6 +43,7 @@ An OpenSSL RSA/AES Encryption/Decryption Library of perfect interaction between 
                 /// todo.....
               });
           }, {
+            keyPreRequestEnabled: false,
             getKeysURL : context_path + "/crypto?generateKeyPair=true",
             handshakeURL : context_path + "/crypto?handshakes=true"
           });

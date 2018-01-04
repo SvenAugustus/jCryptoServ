@@ -19,6 +19,7 @@ function jCryptoServ(keySize, iterationCount) {
 }
 
 jCryptoServ.prototype.defaultOptions = {
+  keyPreRequestEnabled: true,
   getKeysURL: "crypto?generateKeyPair=true",
   handshakeURL: "crypto?handshakes=true"
 };
@@ -35,24 +36,43 @@ jCryptoServ.prototype.defaultOptions = {
  */
 jCryptoServ.prototype.authenticateOnway = function (success, failure, options) {
   var _options = $.extend({}, this.defaultOptions, options);
-  var AESEncryptionKey = this.getSecret();
+  var AESEncryptionKey = this.getKey(_options);
+  console.info('AESEncryptionKey:'+AESEncryptionKey);
   this.authenticate(AESEncryptionKey, _options.getKeysURL,
       _options.handshakeURL, success, failure);
+};
+
+/**
+ * Get string(key) for use in the AES algorithm
+ * @param {object}
+ *            options config the tools
+ */
+jCryptoServ.prototype.getKey = function (options) {
+  var key;
+  if (options && options.keyPreRequestEnabled) {
+    key = this.getSecret();
+  } else {
+    if (!this.secret) {
+      this.secret = this.getSecret();
+    }
+    key = this.secret;
+  }
+  return key;
 };
 
 /**
  * Creates a random string(key) for use in the AES algorithm
  */
 jCryptoServ.prototype.getSecret = function () {
-  var key;
+  var secret;
   if (window.crypto && window.crypto.getRandomValues) {
     var ckey = new Uint32Array(2); // Uint32Array 2 = 16 B = 128 bits
     window.crypto.getRandomValues(ckey);
-    key = CryptoJS.lib.WordArray.create(ckey).toString(CryptoJS.enc.Hex);
+    secret = CryptoJS.lib.WordArray.create(ckey).toString(CryptoJS.enc.Hex);
   } else {
-    key = CryptoJS.lib.WordArray.random(128 / 16).toString(CryptoJS.enc.Hex);
+    secret = CryptoJS.lib.WordArray.random(128 / 16).toString(CryptoJS.enc.Hex);
   }
-  return key;
+  return secret;
 };
 
 /**
