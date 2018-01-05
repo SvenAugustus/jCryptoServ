@@ -1,16 +1,15 @@
 # jCryptoServ
 An OpenSSL RSA/AES Encryption/Decryption Library of perfect interaction between Java and Javascript.
 -------------------------- 
-#### 依赖：
+#### 依赖(Dependency)：
 * 1、JQuery
 * 2、CryptoJS v3.1.2  rollups/aes.js、rollups/pbkdf2.js
 * 3、JSEncrypt v2.3.1
 -------------------------- 
-#### 用法：
+#### 用法(Usage)：
 * 1、web.xml中引入CryptoServlet，如：
 
     	<servlet>
-    		<description>密钥安全服务，提供客户端与服务器加密传输数据的处理机制</description>
     		<servlet-name>CryptoServlet</servlet-name>
     		<servlet-class>io.flysium.security.web.CryptoServlet</servlet-class>
     	</servlet>
@@ -51,3 +50,8 @@ An OpenSSL RSA/AES Encryption/Decryption Library of perfect interaction between 
     		/// todo.....
     	}
     
+#### 联系(Contract)
+* Email: SvenAugustus@outlook.com
+* GitHub: https://github.com/SvenAugustus
+* 开源中国: http://my.oschina.net/langxSpirit
+* 开源码云: https://git.oschina.net/svenaugustus
